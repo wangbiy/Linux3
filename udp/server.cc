@@ -1,5 +1,5 @@
 #include "udpServer.hpp"
-//server 127.0.0.1 8080
+//采用./server 127.0.0.1（[ip]） 8080([port])的形式传入IP地址
 void Usage(string proc)
 {
     cout<<proc<<"IP"<<" "<<"PORT"<<endl;

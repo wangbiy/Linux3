@@ -22,6 +22,7 @@ class Server
     {}
         void InitServer()
         {
+            //           ipv4     UDP
             sock=socket(AF_INET,SOCK_DGRAM,0);
             if(sock<0)
             {
@@ -29,7 +30,7 @@ class Server
                 exit(2);//退出码从2开始
             }
             cout<<"init ....socket create success :"<<sock<<endl;//打印套接字
-            struct sockaddr_in local;//定义结构体变量
+            struct sockaddr_in local;//定义sockaddr_in结构体变量
             local.sin_family=AF_INET;
             local.sin_port=htons(port);//将主机转为网络，端口号是32位bit，因此是s
             local.sin_addr.s_addr=inet_addr(ip.c_str());
@@ -47,13 +48,13 @@ class Server
             char buf[1024];
             for(;;)
             {
-                struct sockaddr_in peer;//对方的地址
+                struct sockaddr_in peer;//对方（客户端）的地址
                 socklen_t len=sizeof(peer);
                 ssize_t s=recvfrom(sock,buf,sizeof(buf)-1,0,(struct sockaddr*)&peer,&len);
                 //读消息，即收消息，返回值代表收到了多少个字节，第3个参数代表期望读多长的数据
                 if(s>0)
                 {
-                    buf[0]=0;
+                    buf[s]=0;
                     cout<<"client#"<<buf<<endl;
                     sendto(sock,buf,strlen(buf),0,(struct sockaddr*)&peer,len);//向peer发消息
                 }

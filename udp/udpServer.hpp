@@ -56,7 +56,7 @@ class Server
                 {
                     buf[s]=0;
                     cout<<"client#"<<buf<<endl;
-                    sendto(sock,buf,strlen(buf),0,(struct sockaddr*)&peer,len);//向peer发消息
+                    sendto(sock,buf,strlen(buf),0,(struct sockaddr*)&peer,len);//向peer发消息,strlen不用+1，因为\0是结束的标志，不是字符串的内容。
                 }
             }
         }

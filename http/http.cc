@@ -22,7 +22,11 @@ void* Routine(void* arg)
         cout<<request<<endl;//读完
         cout<<"----------------------------"<<endl;
 
-        string response = "HTTP/1.0 200 OK\r\n<html><h1>hello http server</h1></html>";
+        //string response = "HTTP/1.0 200 OK\r\n<html><h1>hello http server</h1></html>";
+       // string response = "HTTP/1.0 302 Found\r\nLocation:https:// www.baidu.com\r\n\r\n";//使用临时重定向状态码302来响应，最后再加一个/r/n表示空行
+       // string response = "HTTP/1.0 301 Moved Permanently\r\nLocation:https:// www.baidu.com\r\n\r\n";//使用永久重定向状态码301来响应，最后再加一个/r/n表示空行
+       // string response = "HTTP/1.0 404 Not Found\r\n";//使用404来响应,表示服务器无法处理请求，即客户端出现错误
+       string response="HTTP/1.0 200 OK\r\nSet-Cookie: a=1234;\r\n\r\n<html><h1>OK!</h1></html>";//测试cookie
         send(sock,response.c_str(),response.size(),0);
     }
     else if(s==0)

@@ -12,7 +12,6 @@ void* Routine(void* arg)
     int* p=(int*)arg;
     int sock=*p;
     delete p;
-    char c;
     char request[10240];
     ssize_t s=recv(sock,request,sizeof(request)-1,0);
     if(s>0)

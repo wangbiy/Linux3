@@ -8,6 +8,7 @@ using namespace std;
 #include <sys/select.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <cstring>
 #define SIZE sizeof(fd_set)*8
 class SelectServer
 {
@@ -131,6 +132,7 @@ class SelectServer
                                     {
                                         buf[s]=0;
                                         cout<<"client# "<<buf<<endl;
+                                        send(fd_array[i],buf,strlen(buf),0);
                                     }
                                     else if(s==0)
                                     {

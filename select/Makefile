@@ -1,4 +1,4 @@
-server:main.cc
+server:server.cc
 	g++ -o $@ $^ -std=c++11
 .PHONY:clean
 clean:

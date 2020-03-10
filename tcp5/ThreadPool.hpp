@@ -26,22 +26,26 @@ class Task//我们设定这个任务是进行单词的翻译
         {
             string key;
             char buf[1024];
-            ssize_t s=recv(fd,buf,sizeof(buf)-1,0);
-            if(s>0)
-            {
-                buf[s]=0;
-                key=buf;
-            }
-            string value;
-            auto it=dict.find(key);
-            if(it!=dict.end())
-            {
-                value=it->second;
-            }
-            else
-                value="unknow";
-            send(fd,value.c_str(),value.size(),0);//将翻译结果发送到文件描述符fd
-            close(fd);
+             while(1)
+			{
+				ssize_t s=recv(fd,buf,sizeof(buf)-1,0);
+				if(s>0)
+				{
+					buf[s]=0;
+					cout<<"client#"<<buf<<endl;
+					key=buf;
+				}
+				string value;
+				auto it=dict.find(key);
+				if(it!=dict.end())
+				{
+					value=it->second;
+				}
+				else
+					value="unknow";
+				send(fd,value.c_str(),value.size(),0);
+			}
+			close(fd);
         }
 
 };

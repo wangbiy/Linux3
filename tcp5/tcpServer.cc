@@ -63,40 +63,6 @@ class TcpServer
             tp=new ThreadPool();//创建线程池
             tp->InitThreadPool();//初始化线程池
         }
-        static void ServiceIO(int sock)
-        {
-            char buf[1024];
-            while(1)
-            {
-                //进行收发消息
-                //ssize_t s=read(sock,buf,sizeof(buf)-1);
-                ssize_t s=recv(sock,buf,sizeof(buf)-1,0);
-                if(s>0)
-                {
-                    buf[s]=0;
-                    cout<<"client# "<<buf<<endl;
-                    //write(sock,buf,strlen(buf));
-                    send(sock,buf,strlen(buf),0);
-                }
-                else if(s==0)
-                {
-                    cout<<"client quit"<<endl;//客户端退出
-                    break;
-                }
-                else
-                    cerr<<"read error"<<endl;
-            }
-        }
-        static void* ThreadRun(void* arg)//类内的成员函数，因为是带this指针的，不负好pthread_create参数中线程处理函数回调机制，因此要设置为static的
-        {
-            pthread_detach(pthread_self());//将新线程分离，因为如果新线程退出，主线程不采用pthread_join的方式进行等待，就会产生类似于僵尸进程的问题，因此要将线程分离
-            int sock =*(int*) arg;//涉及C++11中的四种类型转换
-            ServiceIO(sock);
-            delete (int*)arg;
-            //所有的线程是共享文件描述符的，因此不能关闭文件描述符，这也是与多进程之间的不同，但是多线程可以在服务完成之后关闭文件描述符
-            close(sock);
-
-        }
         void Start()
         {
             struct sockaddr_in peer;//对端
